@@ -23,8 +23,11 @@
 /** Setup the MACachedImageView */
 -(void)setup;
 
+/** Returns the path to the caching file with specified URL */
++(NSString*)cacheFilePathByUrl:(NSURL*)url;
+
 /** Returns the path to the caching directoy. If the directory does not exist already, it gets created. */
--(NSString*)cacheDirectoryPath;
++(NSString*)cacheDirectoryPath;
 
 /** Checks if a specific file with the given path exists. */
 -(BOOL)fileExists:(NSString*)path;
@@ -152,9 +155,7 @@
 }
 
 -(void)displayImageFromURL:(NSURL*)url forceRefreshingCache:(BOOL)force {
-    NSString *cacheDirectory = [self cacheDirectoryPath];
-    NSString *cachedFilename = [[url absoluteString] md5];
-    NSString *cachedFilePath = [cacheDirectory stringByAppendingPathComponent:cachedFilename];
+    NSString *cachedFilePath = [MACachedImageView cacheFilePathByUrl:url];
     
     if(force || ![self fileExists:cachedFilePath]) {
         [self hideImage];
@@ -173,6 +174,13 @@
         UIImage *cachedImage = [CZSharedImage imageWithContentsOfFile:cachedFilePath];
         [self displayImage:cachedImage withContentMode:self.imageContentMode];
     }
+}
+
++(void)cacheImage:(UIImage*)image withURL:(NSURL*)url {
+    NSString *cachedFilePath = [MACachedImageView cacheFilePathByUrl:url];
+
+    NSData* data = UIImagePNGRepresentation(image);
+    [data writeToFile:cachedFilePath atomically:YES];
 }
 
 -(void)displayImage:(UIImage *)image {
@@ -203,7 +211,14 @@
     });
 }
 
--(NSString*)cacheDirectoryPath {
++(NSString*)cacheFilePathByUrl:(NSURL*)url {
+    NSString *cacheDirectory = [MACachedImageView cacheDirectoryPath];
+    NSString *cachedFilename = [[url absoluteString] md5];
+    NSString *cachedFilePath = [cacheDirectory stringByAppendingPathComponent:cachedFilename];
+    return cachedFilePath;
+}
+
++(NSString*)cacheDirectoryPath {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *cachePath = [paths objectAtIndex:0];
