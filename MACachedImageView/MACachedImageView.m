@@ -1,6 +1,7 @@
 
 #import "MACachedImageView.h"
 #import <CommonCrypto/CommonDigest.h>
+#import "CZSharedImage.h"
 
 #define kCachedImageViewDefaultProgressIndicatorSize 35.0
 #define kSubfolderImageCache @"macachedimageview"
@@ -164,12 +165,12 @@
             _progressIndicator.hidden = YES;
             
             if(filePath != nil) {
-                UIImage *cachedImage = [UIImage imageWithContentsOfFile:filePath];
+                UIImage *cachedImage = [CZSharedImage imageWithContentsOfFile:filePath];
                 [self displayImage:cachedImage withContentMode:self.imageContentMode];
             }
         }];
     } else {
-        UIImage *cachedImage = [UIImage imageWithContentsOfFile:cachedFilePath];
+        UIImage *cachedImage = [CZSharedImage imageWithContentsOfFile:cachedFilePath];
         [self displayImage:cachedImage withContentMode:self.imageContentMode];
     }
 }
