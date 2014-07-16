@@ -254,6 +254,12 @@
     self.image = image;
 }
 
++(UIImage*)imageForUrl:(NSURL*)url {
+    NSString *cachedFilePath = [MACachedImageView cacheFilePathByUrl:url];
+    UIImage *cachedImage = [CZSharedImage imageWithContentsOfFile:cachedFilePath];
+    return cachedImage;
+}
+
 #pragma mark - Layout
     
 -(void)layoutSubviews {

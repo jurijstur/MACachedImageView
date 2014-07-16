@@ -33,6 +33,9 @@
 /** Display any UIImage without using any caching mechanisms. Handy if you want to display some images from your resource bundle */
 -(void)displayImage:(UIImage*)image;
 
+/** Get image from cache */
++(UIImage*)imageForUrl:(NSURL*)url;
+
 /** Caching UIImage with specified URL (internal namespace) */
 +(void)cacheImage:(UIImage*)image withURL:(NSURL*)url;
 
