@@ -251,7 +251,12 @@
 -(void)displayImage:(UIImage*)image withContentMode:(UIViewContentMode)contentMode {
     _displayingImage = YES;
     self.contentMode = contentMode;
-    self.image = image;
+
+    if (self.delegate) {
+        self.image = [self.delegate processImage:image];
+    } else {
+        self.image = image;
+    }
 }
 
 +(UIImage*)imageForUrl:(NSURL*)url {

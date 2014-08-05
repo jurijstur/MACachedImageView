@@ -3,7 +3,16 @@
 #import <AFHTTPRequestOperation.h>
 #import <MACircleProgressIndicator.h>
 
+@protocol MACachedImageViewDelegate <NSObject>
+
+-(UIImage*)processImage:(UIImage *)image;
+
+@end
+
 @interface MACachedImageView : UIImageView
+
+/** Delegate */
+@property (nonatomic, weak) id<MACachedImageViewDelegate> delegate;
 
 /** If no image is loaded, this placeholder image gets displayed. */
 @property (nonatomic, retain) UIImage *placeholderImage UI_APPEARANCE_SELECTOR;
