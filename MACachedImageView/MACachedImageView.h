@@ -32,6 +32,8 @@
 /** UIViewContentMode used for displaying the placeholder image. */
 @property (nonatomic) UIViewContentMode placeholderContentMode UI_APPEARANCE_SELECTOR;
 
+/** Full image url */
+@property (nonatomic) NSString *fullImage;
 
 /** Display an image from the given url. If the image was requested to display before and is avialable in the cache, it gets loaded from there. If not the image gets downloaded while showing a progress indicator. */
 -(void)displayImageFromURL:(NSURL*)url;
